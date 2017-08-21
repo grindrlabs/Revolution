@@ -1,0 +1,14 @@
+---
+- name: build
+  hosts: all
+  become: true
+  roles:
+    - role: vagrant-python-dev
+      python_version: 3.5.3
+  tasks:
+    - name: install rpm build packages
+      package: name={{ item }} state=present
+      with_items:
+        - gcc
+        - make
+        - mock

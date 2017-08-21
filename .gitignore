@@ -1,0 +1,17 @@
+# python
+*.pyc
+*.pyo
+__pycache__
+
+# buildout
+/.installed.cfg
+/.python-version
+/bin
+/develop-eggs
+/eggs
+/parts
+/src/revolution.egg-info
+
+# vagrant
+/.galaxy-roles
+/.vagrant

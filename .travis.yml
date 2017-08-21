@@ -1,0 +1,18 @@
+---
+dist: trusty
+
+language: python
+python: 3.5.3
+cache: { pip: true, directories: [eggs/] }
+
+install: make setup
+
+script: bin/test
+
+deploy:
+  skip_cleanup: true
+
+notifications:
+  email:
+    on_success: never
+    on_failure: never
