@@ -9,9 +9,6 @@ install: make setup
 
 script: bin/test
 
-deploy:
-  skip_cleanup: true
-
 notifications:
   email:
     on_success: never
