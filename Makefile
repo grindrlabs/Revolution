@@ -2,7 +2,7 @@
 
 setup:
 	@# install bare minimum requirements
-	if [ -z "$VIRTUAL_ENV" ]; then \
+	if [ -z "$$VIRTUAL_ENV" ]; then \
 		pip install --user --upgrade -r requirements.txt ;\
 	else \
 		pip install --upgrade -r requirements.txt ; \
