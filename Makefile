@@ -1,12 +1,10 @@
 #!/usr/bin/env make -f
 
+SHELL:=/bin/bash
+
 setup:
 	@# install bare minimum requirements
-	if [ -z "$$VIRTUAL_ENV" ]; then \
-		pip install --user --upgrade -r requirements.txt ;\
-	else \
-		pip install --upgrade -r requirements.txt ; \
-	fi
+	pip install --user --upgrade -r requirements.txt ;\
 	@# bootstrap the project
 	buildout
 
