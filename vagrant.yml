@@ -3,6 +3,7 @@
   hosts: all
   become: true
   roles:
+    - role: vagrant-docker
     - role: vagrant-python-dev
       python_version: 3.5.3
   tasks:
@@ -10,5 +11,8 @@
       package: name={{ item }} state=present
       with_items:
         - gcc
+        - git
         - make
         - mock
+    - name: add vagrant user to mock group
+      user: name=vagrant append=yes groups=mock

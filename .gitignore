@@ -12,6 +12,10 @@ __pycache__
 /parts
 /src/revolution.egg-info
 
+# rpms
+/target
+/rpms/*/sources
+
 # vagrant
 /.galaxy-roles
 /.vagrant

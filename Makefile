@@ -1,10 +1,8 @@
 #!/usr/bin/env make -f
 
-SHELL:=/bin/bash
-
 setup:
 	@# install bare minimum requirements
-	pip install --user --upgrade -r requirements.txt ;\
+	pip install --user --upgrade -r requirements.txt
 	@# bootstrap the project
 	buildout
 

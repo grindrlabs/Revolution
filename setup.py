@@ -12,6 +12,7 @@ setup(
     author_email = "me@naftuli.wtf",
     url = "https://github.com/grindrllc/revolution",
     install_requires = [
+        'GitPython',
         'python-rpm-spec',
         'requests',
         'setuptools',
