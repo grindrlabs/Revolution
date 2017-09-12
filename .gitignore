@@ -1,7 +1,4 @@
-# rpms
-/target
-/rpms/*/sources
-
-# vagrant
 /.galaxy-roles
 /.vagrant
+
+/vendor
