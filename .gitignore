@@ -1,3 +1,17 @@
+/.bundle/
+/.yardoc
+/Gemfile.lock
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+/bin/
+
+# rspec failure tracking
+.rspec_status
+
 /.galaxy-roles
 /.ruby-version
 /.vagrant

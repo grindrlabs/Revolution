@@ -1,4 +1,7 @@
 # frozen_string_literal: true
 source "https://rubygems.org"
 
-# gem "rails"
+git_source(:github) {|revolution| "https://github.com/grindrlabs/revolution" }
+
+# TODO Specify your gem's dependencies in revolution.gemspec
+# gemspec
