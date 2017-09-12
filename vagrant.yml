@@ -4,8 +4,7 @@
   become: true
   roles:
     - role: vagrant-docker
-    - role: vagrant-python-dev
-      python_version: 3.5.3
+    - role: vagrant-ruby-dev
   tasks:
     - name: install rpm build packages
       package: name={{ item }} state=present
