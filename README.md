@@ -16,16 +16,16 @@ Once finished, shell into the VM:
 $ vagrant ssh
 ```
 
-Inside the Vagrant machine, install pip dependencies:
+Inside the Vagrant machine, install ruby gem dependencies:
 
 ```
-$ pip install --user --upgrade -r requirements.txt
+# TODO
 ```
 
-Finally, run `buildout` to build the project and its scripts:
+Finally, run `TODO` to build the project and its scripts:
 
 ```
-$ buildout
+# TODO
 ```
 
 All relevant project scripts will now be found in `bin/`.
