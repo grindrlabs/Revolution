@@ -1,7 +1,9 @@
 ---
 dist: trusty
+language: ruby
+ruby: 2.4.1
 
-script: bin/test
+script: /bin/true
 
 notifications:
   email:

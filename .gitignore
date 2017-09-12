@@ -1,7 +1,5 @@
-# rpms
-/target
-/rpms/*/sources
-
-# vagrant
 /.galaxy-roles
+/.ruby-version
 /.vagrant
+
+/vendor

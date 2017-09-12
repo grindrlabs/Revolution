@@ -1,6 +1,6 @@
-# revolution ☸️ 
+# revolution ☸️
 
-Software packages for Enterprise Linux 7.
+A build system using [`fpm-cookery`][fpm-cookery] for Travis CI.
 
 ## Building
 
@@ -19,16 +19,9 @@ $ vagrant ssh
 Inside the Vagrant machine, install ruby gem dependencies:
 
 ```
-# TODO
+$ gem install bundler
+$ bundle install
 ```
-
-Finally, run `TODO` to build the project and its scripts:
-
-```
-# TODO
-```
-
-All relevant project scripts will now be found in `bin/`.
 
 ## License
 
@@ -40,3 +33,5 @@ Licensed under either of
 ### Contribution
 
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
+
+ [fpm-cookery]: https://github.com/grindrlabs/fpm-cookery
