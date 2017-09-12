@@ -5,6 +5,7 @@
   roles:
     - role: vagrant-docker
     - role: vagrant-ruby-dev
+      ruby_version: 2.4.1
   tasks:
     - name: install rpm build packages
       package: name={{ item }} state=present
