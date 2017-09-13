@@ -1,13 +1,24 @@
-/.bundle/
-/.yardoc
-/Gemfile.lock
-/_yardoc/
+*.gem
+*.rbc
+/.config
 /coverage/
-/doc/
+/InstalledFiles
 /pkg/
+
+## Documentation cache and generated files:
+/.yardoc/
+/_yardoc/
+/doc/
+/rdoc/
 /spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
 /tmp/
 /bin/
+
+/vendor/bundle
+/lib/bundler/man/
 
 # rspec failure tracking
 .rspec_status
@@ -15,5 +26,3 @@
 /.galaxy-roles
 /.ruby-version
 /.vagrant
-
-/vendor
