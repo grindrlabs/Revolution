@@ -10,7 +10,8 @@ rvm:
 
 before_install: gem install bundler -v 1.15.4
 
-script: /bin/true
+script:
+  - bundle exec 'rubocop' || echo this is fine #TODO
 
 notifications:
   email:
