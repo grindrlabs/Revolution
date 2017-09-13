@@ -1,10 +1,73 @@
+GIT
+  remote: https://github.com/bernd/fpm-cookery.git
+  revision: 82e299ab4486d617f557d95f5ed268c38847c1dc
+  branch: master
+  specs:
+    fpm-cookery (0.33.0)
+      addressable (~> 2.3.8)
+      facter
+      fpm (~> 1.1)
+      json (>= 1.7.7, < 2.0)
+      json_pure (>= 1.7.7, < 2.0)
+      puppet (~> 3.4)
+      safe_yaml (~> 1.0.4)
+      systemu
+
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.3.8)
+    arr-pm (0.0.10)
+      cabin (> 0)
+    backports (3.8.0)
+    cabin (0.9.0)
+    childprocess (0.7.1)
+      ffi (~> 1.0, >= 1.0.11)
+    clamp (1.0.1)
+    dotenv (2.2.1)
+    facter (2.5.1)
+    ffi (1.9.18)
+    fpm (1.9.3)
+      arr-pm (~> 0.0.10)
+      backports (>= 2.6.2)
+      cabin (>= 0.6.0)
+      childprocess
+      clamp (~> 1.0.0)
+      ffi
+      json (>= 1.7.7, < 2.0)
+      pleaserun (~> 0.0.29)
+      ruby-xz
+      stud
+    hiera (1.3.4)
+      json_pure
+    insist (1.0.0)
+    io-like (0.3.0)
+    json (1.8.6)
+    json_pure (1.8.6)
+    mustache (0.99.8)
+    pleaserun (0.0.30)
+      cabin (> 0)
+      clamp
+      dotenv
+      insist
+      mustache (= 0.99.8)
+      stud
+    puppet (3.8.7)
+      facter (> 1.6, < 3)
+      hiera (~> 1.0)
+      json_pure
+    ruby-xz (0.2.3)
+      ffi (~> 1.9)
+      io-like (~> 0.3)
+    safe_yaml (1.0.4)
+    stud (0.0.23)
+    systemu (2.6.5)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  fpm-cookery!
 
 BUNDLED WITH
+   1.15.4

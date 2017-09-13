@@ -37,6 +37,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.linked_clone = true
   end
 
+  config.vm.synced_folder ".", "/vagrant/",
+      id: "tool"
+
+  config.vm.synced_folder "../rpm-packages/", "/vagrant/recipes/",
+      id: "recipes"
+
   # Configure the VM using Ansible
   config.vm.provision "ansible_local" do |ansible|
     ansible.galaxy_role_file = "requirements.yml"
