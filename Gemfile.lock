@@ -79,6 +79,7 @@ GEM
     stud (0.0.23)
     systemu (2.6.5)
     unicode-display_width (1.3.0)
+    xmlrpc (0.3.0)
 
 PLATFORMS
   ruby
@@ -86,6 +87,7 @@ PLATFORMS
 DEPENDENCIES
   fpm-cookery!
   rubocop
+  xmlrpc
 
 BUNDLED WITH
    1.15.4
