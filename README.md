@@ -1,4 +1,4 @@
-# revolution ☸️
+# revolution ☸️ [![Build Status](https://travis-ci.org/grindrlabs/revolution.svg?branch=master)](https://travis-ci.org/grindrlabs/revolution)
 
 A build system using [`fpm-cookery`][fpm-cookery] for Travis CI.
 
