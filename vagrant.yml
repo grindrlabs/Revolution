@@ -5,3 +5,16 @@
   roles:
     - role: vagrant-ruby-dev
       ruby_version: 2.4.1
+  tasks:
+    - name: install rpmbuild
+      package:
+        name: rpm-build
+        state: latest
+    - name: install bundler
+      become: true
+      become_user: vagrant
+      command: bash -lc "gem install bundler"
+    - name: run bundle install
+      become: true
+      become_user: vagrant
+      command: bash -lc "cd /vagrant/ && bundle install"
