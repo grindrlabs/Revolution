@@ -16,13 +16,6 @@ Once finished, shell into the VM:
 $ vagrant ssh
 ```
 
-Inside the Vagrant machine, install ruby gem dependencies:
-
-```
-$ gem install bundler
-$ bundle install
-```
-
 Then run the Rakefile inside the bundled environment:
 
 ```
