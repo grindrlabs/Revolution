@@ -23,6 +23,18 @@ $ gem install bundler
 $ bundle install
 ```
 
+Then run the Rakefile inside the bundled environment:
+
+```
+$ bundle exec rake
+```
+
+Optionally you can turn on tracing with the `-t` flag:
+
+```
+$ bundle exec rake -t
+```
+
 ## License
 
 Licensed under either of
