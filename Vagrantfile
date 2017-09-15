@@ -9,11 +9,11 @@ require 'shellwords'
 VAGRANTFILE_API_VERSION = "2"
 
 def cpu_count
-  Etc.nprocessors # for ruby build
+  4
 end
 
 def memory
-  2048
+  4096
 end
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -38,10 +38,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.synced_folder ".", "/vagrant/",
-      id: "tool"
+      id: "tool", nfs: "true"
 
   config.vm.synced_folder "../rpm-packages/", "/vagrant/recipes/",
-      id: "recipes"
+      id: "recipes", nfs: "true"
 
   # Configure the VM using Ansible
   config.vm.provision "ansible_local" do |ansible|
