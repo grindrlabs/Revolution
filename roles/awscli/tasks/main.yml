@@ -1,0 +1,38 @@
+---
+- name: install python development packages
+  package: name={{ item }} state=present
+  with_items:
+    - python-devel
+    - python-pip
+
+- name: install aws cli
+  pip: name=awscli state=present
+
+- name: install aws bash completions
+  file:
+    src: /usr/local/bin/aws_bash_completer
+    dest: /etc/bash_completion.d/aws
+    owner: root
+    group: root
+    mode: 0755
+    state: link
+    force: true
+
+- name: create directory for .aws
+  file:
+    path: /home/vagrant/.aws
+    state: directory
+    owner: vagrant
+    group: vagrant
+    mode: 0700
+
+- name: configure aws
+  ini_file:
+    path: /home/vagrant/.aws/config
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    mode: 0600
+  with_items:
+    - { section: default, option: region, value: us-east-1 }
+    - { section: default, option: output, value: json }

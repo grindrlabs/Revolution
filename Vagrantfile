@@ -19,7 +19,7 @@ end
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "bento/centos-7.3"
-  config.vm.hostname = "devel"
+  config.vm.hostname = "revolution-dev"
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
