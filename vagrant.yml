@@ -5,10 +5,15 @@
   roles:
     - role: vagrant-ruby-dev
       ruby_version: 2.4.1
+    - role: awscli
   tasks:
     - name: install rpmbuild
       package:
         name: rpm-build
+        state: latest
+    - name: install createrepo
+      package:
+        name: createrepo
         state: latest
     - name: install bundler
       become: true
