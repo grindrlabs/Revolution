@@ -14,6 +14,13 @@ script:
   - bundle exec 'rubocop' || echo this is fine #TODO
 
 notifications:
+  slack:
+    on_pull_requests: false
+    on_success: never
+    on_change: never
+    on_failure: always
+    rooms:
+      - secure: "SpAjQY9oNfUDXNQZcYKBko37vLZMqApaQTSInVnPQsf9rZa+c8JVMtUuu66SDA+ueycLNkn8uKp1Os6YHSB7hKfwb2Mij35g07oqhwWfU45RpfnkyCuuvFXz9yiBMtICRjZU6JDcbqwVg6FdVdTOyaO0+GQqgA+4SablzDoIKJt2EoCOwpT+a00walC3xOQZdaU/2XrtOC43tQ9/jteUD48eA4j9ME/dMPc+7iFqJf2NXac85jZ1LKT7LzEo6gtKXpc1ssDArKmcVSSRi7jJDBwFbVLkX4BwVueXrH632qGwKJn1e++QThxQWIETw/+Kd1JPx6MPXhi0UsuPi5IksH3ATbseaUpSmI3WmuYh16D+FFJKOpZ2S5CFtUsAGoM5XD/06qAEXIERbSjRDeG01IZ338Hazpu8ALFlrceVGZlhweNleRR8IWdmCKdxSPah3loK8yU9ibbjm0Xkhm7kLEeShyBNjQK2AlQKVzgXsTVT05PEnCkjFQAPg3JEmRwtWf32+bqhMZs0KoaiGYAD318iJZIhoH57/fsZ0fJfMW0vpGhEL1bAmryNP4/bDsV8ylaZzqKkftSxbIwx9EiWhMChzffShZviKVJ1cGkxPk6mZBlfT1XQpd8dV5zy3iPVGeIDH9UtLpbbR1++KWXmr66h/uSRZG3o/pq3pLkvqU8="
   email:
     on_success: never
     on_failure: never
