@@ -15,6 +15,7 @@ help:
 
 place-rpms:
 	@echo throwing rpms into the local repo directory
+	mkdir -p repo/centos/7/x86_64/
 	find ./recipes -iname "*rpm" -type f | grep -v vendor | xargs -I {} cp {} repo/centos/7/x86_64/
 
 build-repo: place-rpms
