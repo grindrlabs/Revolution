@@ -5,20 +5,9 @@
 require 'etc'
 require 'shellwords'
 
-# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
-VAGRANTFILE_API_VERSION = "2"
-
-def cpu_count
-  4
-end
-
-def memory
-  4096
-end
-
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+Vagrant.configure("2") do |config|
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "bento/centos-7.3"
+  config.vm.box = "bento/centos-7.4"
   config.vm.hostname = "revolution-dev"
 
   # Create a private network, which allows host-only access to the machine
@@ -31,23 +20,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.forward_env = ["AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "AWS_SESSION_TOKEN"]
 
   # Tweak the VMs configuration.
-  config.vm.provider "virtualbox" do |vb|
-    vb.cpus = cpu_count
-    vb.memory = memory
-    vb.linked_clone = true
+  config.vm.provider "virtualbox" do |v|
+    v.cpus = [Etc.nprocessors, 2].min
+    v.linked_clone = true if Vagrant::VERSION =~ /^1.8/
   end
 
   config.vm.synced_folder ".", "/vagrant/",
-      id: "tool", nfs: "true"
+      id: "tool",
+      mount_options: ["uid=1000", "gid=1000"]
 
   config.vm.synced_folder "../rpm-packages/", "/vagrant/recipes/",
-      id: "recipes", nfs: "true"
+      id: "recipes",
+      mount_options: ["uid=1000", "gid=1000"]
 
   # Configure the VM using Ansible
-  config.vm.provision "ansible_local" do |ansible|
+  config.vm.provision :ansible do |ansible|
     ansible.galaxy_role_file = "requirements.yml"
     ansible.galaxy_roles_path = ".galaxy-roles"
-    ansible.provisioning_path = "/vagrant"
     ansible.playbook = "vagrant.yml"
     # allow passing ansible args from environment variable
     ansible.raw_arguments = Shellwords::shellwords(ENV.fetch("ANSIBLE_ARGS", ""))
