@@ -7,14 +7,14 @@
       ruby_version: 2.4.1
     - role: awscli
   tasks:
-    - name: install rpmbuild
+    - name: install required packages
       package:
-        name: rpm-build
+        name: "{{ item }}"
         state: latest
-    - name: install createrepo
-      package:
-        name: createrepo
-        state: latest
+      with_items:
+        - rpm-build
+        - cmake
+        - createrepo
     - name: install bundler
       become: true
       become_user: vagrant
