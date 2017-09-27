@@ -7,4 +7,5 @@ gem 'fpm-cookery', git: 'https://github.com/bernd/fpm-cookery.git',
 gem 'rake'
 gem 'rspec'
 gem 'rubocop'
+gem 'rugged'
 gem 'xmlrpc'
