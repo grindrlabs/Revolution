@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# frozen_string_literal: truerequire 'rspec'
+# frozen_string_literal: true
 
 require 'rspec'
 require 'revolution/build'
