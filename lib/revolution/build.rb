@@ -1,26 +1,33 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+module Build
+  def self.log
+    Dir.mkdir('log') unless Dir.exist?('log')
+  end
 
-def build_package(pkg_path)
-  pid = Process.spawn("fpm-cook package --no-deps " + pkg_path + '/recipe.rb')
+  def self.run(pkg_name, command)
+    fpm_cook = 'fpm-cook package --no-deps' if command == 'build'
+    fpm_cook = 'fpm-cook clean' if command == 'clean'
 
-  pid, returncode = Process.wait2(pid)
-  puts "+++ Build successful! +++" if returncode == 0
+    log
+    outfile = "log/#{pkg_name}_#{Time.now.strftime('%F_%T')}.txt"
+    output  = File.open(outfile, 'w')
+
+    pid = Process.spawn("#{fpm_cook} recipes/#{pkg_name}/recipe.rb",
+                        out: '/dev/null', err: output)
+
+    pid, status = Process.wait2(pid)
+    File.delete(output) if status.exitstatus.zero?
+    status
+  end
+
+  def self.build_package(pkg_name)
+    clean(pkg_name)
+    return 'success' if run(pkg_name, 'build').exitstatus.zero?
+  end
+
+  def self.clean(pkg_name)
+    return 'success' if run(pkg_name, 'clean').exitstatus.zero?
+  end
 end
-
-def clean(pkg_path)
-  pid = Process.spawn("fpm-cook clean " + pkg_path + '/recipe.rb')
-
-  pid, returncode = Process.wait2(pid)
-  puts "+++ All clean! +++" if returncode == 0
-end
-
-# Temporary function calls for testing:
-# Uncomment either build_package() or clean() below
-# Run `bundle exec ruby path/to/build.rb` from repo base directory
-#
-build_package('recipes/grindr-base')
-# clean('recipes/grindr-base')
-#
-# TODO: write entry point calling build_package() and clean()
