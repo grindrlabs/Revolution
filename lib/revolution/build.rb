@@ -2,16 +2,20 @@
 # frozen_string_literal: true
 
 module Build
-  def self.log
-    Dir.mkdir('log') unless Dir.exist?('log')
+  def self.log(pkg_name)
+    # TODO: fix log_dir path so it works for both Vagrant and Travis
+    log_dir = "recipes/#{pkg_name}/log"
+    Dir.mkdir(log_dir) unless Dir.exist?(log_dir)
+    log_dir
   end
 
   def self.run(pkg_name, command)
+    # TODO: add logic for routing output to stdout, logfiles, etc
     fpm_cook = 'fpm-cook package --no-deps' if command == 'build'
     fpm_cook = 'fpm-cook clean' if command == 'clean'
 
-    log
-    outfile = "log/#{pkg_name}_#{Time.now.strftime('%F_%T')}.txt"
+    log_dir = log(pkg_name)
+    outfile = "#{log_dir}/#{Time.now.strftime('%F_%T')}"
     output  = File.open(outfile, 'w')
 
     pid = Process.spawn("#{fpm_cook} recipes/#{pkg_name}/recipe.rb",

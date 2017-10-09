@@ -5,7 +5,7 @@
 /InstalledFiles
 /pkg/
 /repo/
-/log/
+*/log/
 
 ## Documentation cache and generated files:
 /.yardoc/
