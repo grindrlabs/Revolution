@@ -1,5 +1,8 @@
 require "revolution/version"
 
 module Revolution
-  # TODO
+
+  def self.run
+    puts "Running!"
+  end
 end
