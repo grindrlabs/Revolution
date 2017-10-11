@@ -22,7 +22,12 @@ place-rpms: build-rpms
 	mkdir -p repo/centos/7/x86_64/
 	find ./recipes -iname "*rpm" -type f | grep -v vendor | xargs -I {} cp {} repo/centos/7/x86_64/
 
-build-repo: place-rpms
+sign-rpms: place-rpms
+	@echo signing packages
+	cd recipes/grindr-repo-main && $(MAKE) import_key
+	rpm --addsign repo/centos/7/x86_64/*rpm
+
+build-repo: sign-rpms
 	@echo building repo locally
 	cd repo/centos/7/x86_64 && createrepo .
 
