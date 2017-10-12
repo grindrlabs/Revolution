@@ -16,6 +16,7 @@
         state: latest
       with_items:
         - rpm-build
+        - rpm-sign
         - cmake
         - createrepo
     - name: install bundler
@@ -26,6 +27,17 @@
       become: true
       become_user: vagrant
       command: bash -lc "cd /vagrant/ && bundle install"
+    - name: install ~/.rpmmacros
+      lineinfile:
+        path: "{{ item.path }}"
+        create: true
+        regexp: '^%_gpg_name'
+        line: '%_gpg_name "isre@grindr.com"'
+        owner: "{{ item.owner }}"
+        group: "{{ item.owner }}"
+      with_items:
+        - { path: /root/.rpmmacros, owner: root}
+        - { path: /home/vagrant/.rpmmacros, owner: vagrant }
   handlers:
     - name: restart ssh
       service: name=sshd state=restarted
