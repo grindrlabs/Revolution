@@ -7,6 +7,9 @@
       ruby_version: 2.4.1
     - role: awscli
   tasks:
+    - name: allow ssh env aws
+      lineinfile: dest=/etc/ssh/sshd_config line="AcceptEnv AWS_*"
+      notify: restart ssh
     - name: install required packages
       package:
         name: "{{ item }}"
@@ -23,3 +26,6 @@
       become: true
       become_user: vagrant
       command: bash -lc "cd /vagrant/ && bundle install"
+  handlers:
+    - name: restart ssh
+      service: name=sshd state=restarted
