@@ -15,11 +15,10 @@ module TravisCI
   end
 
   def self.first_commit_in_range
-    commit_range[0]
+    commit_range.first
   end
 
   def self.last_commit_in_range
-    commit_range[1]
+    commit_range.last
   end
-
 end
