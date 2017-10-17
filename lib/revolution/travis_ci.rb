@@ -10,11 +10,15 @@ module TravisCI
     pull_request? ? ENV['TRAVIS_PULL_REQUEST_BRANCH'] : ENV['TRAVIS_BRANCH']
   end
 
-  def self.base(base_branch)
-    current_branch == base_branch ? _first_commit_in_range : base_branch
+  def self.commit_range
+    ENV['TRAVIS_COMMIT_RANGE'].split('...')
   end
 
-  def self._first_commit_in_range
-    ENV['TRAVIS_COMMIT_RANGE'].split('...')[0]
+  def self.first_commit_in_range
+    commit_range.first
+  end
+
+  def self.last_commit_in_range
+    commit_range.last
   end
 end

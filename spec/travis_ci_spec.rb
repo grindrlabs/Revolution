@@ -42,31 +42,21 @@ RSpec.describe 'TravisCI' do
     end
   end
 
-  describe '.base' do
-    context 'when pushed from base branch' do
-      it 'returns first commit in range' do
-        ENV['TRAVIS_EVENT_TYPE']   = 'push'
-        ENV['TRAVIS_BRANCH']       = 'master'
-        ENV['TRAVIS_COMMIT_RANGE'] = '123...456'
-        expect(TravisCI.base('master')).to eq('123')
-      end
+  describe '.commit_range' do
+    before(:all) do
+      ENV['TRAVIS_COMMIT_RANGE'] = '123...456'
     end
 
-    context 'when PR from feature branch' do
-      it 'returns first commit in range' do
-        ENV['TRAVIS_EVENT_TYPE']          = 'pull_request'
-        ENV['TRAVIS_PULL_REQUEST_BRANCH'] = 'feature/test-branch'
-        ENV['TRAVIS_COMMIT_RANGE']        = '123...456'
-        expect(TravisCI.base('master')).not_to eq('feature/test-branch')
-      end
+    it 'returns an array' do
+      expect(TravisCI.commit_range).to be_an Array
     end
 
-    context 'when not from base branch' do
-      it 'returns base branch name' do
-        ENV['TRAVIS_BRANCH'] = 'current_branch_name'
-        expect(TravisCI.base('base_branch_name')).to eq('base_branch_name')
-      end
+    it 'returns an array containing 2 values' do
+      expect(TravisCI.commit_range.length).to be 2
+    end
+
+    it 'returns an array with the values for the first and last commits' do
+      expect(TravisCI.commit_range).to eq(%w[123 456])
     end
   end
-
 end
