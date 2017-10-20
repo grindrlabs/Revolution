@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+
+function configure() {
+  local go_root_dir="/usr/lib64/go"
+
+  # force create the symlinks
+  find "$go_root_dir/bin" -type f | while read script ; do
+    # install symlinks for all go executables
+    local script_name="$(basename "$script")"
+    update-alternatives --install /usr/bin/${script_name} ${script_name} ${script} 100
+  done
+
+  # provide a symlink back to the default GOROOT
+  ln -sf "${go_root_dir}" /usr/local/go
+}
+
+function main() {
+  local action="$1"
+  shift
+
+  case $action in
+    1|2)
+      configure $@
+      ;;
+    *)
+      ;;
+  esac
+}
+
+main $@
