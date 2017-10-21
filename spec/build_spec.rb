@@ -7,15 +7,6 @@ require 'revolution/build'
 
 describe 'Build' do
   context 'passing in golang example package' do
-    describe '.log' do
-      it 'makes sure the examples/golang/log directory gets created' do
-        pkg_path = 'examples/golang'
-        Build.log(pkg_path)
-        log_dir = "#{pkg_path}/log"
-        expect(Dir.exist?(log_dir)).to be true
-      end
-    end
-
     describe '.build_package' do
       before(:all) do
         @pkg_path = 'examples/golang'
@@ -42,15 +33,22 @@ describe 'Build' do
     end
 
     describe '.clean' do
-      it 'fpm-cook clean command returns successfully' do
-        pkg_path = 'examples/golang'
-        expect(Build.clean(pkg_path)).to be 'success'
+      before(:all) do
+        @pkg_path = 'examples/golang'
       end
 
-      it 'deletes existing .rpms in pkg/' do
-        pkg_path = 'examples/golang'
-        pkg_dir = pkg_path + '/pkg'
-        expect(Dir.empty?(pkg_dir)).to be true
+      it 'fpm-cook clean command returns successfully' do
+        expect(Build.clean(@pkg_path)).to be 'success'
+      end
+
+      it 'deletes directory tmp-dest/' do
+        tmp_dest = @pkg_path + '/tmp-dest'
+        expect(Dir.exist?(tmp_dest)).to be false
+      end
+
+      it 'deletes directory tmp-build/' do
+        tmp_build = @pkg_path + '/tmp-build'
+        expect(Dir.exist?(tmp_build)).to be false
       end
     end
   end
