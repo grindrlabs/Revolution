@@ -6,25 +6,15 @@ require 'yaml'
 require 'revolution/build'
 
 describe 'Build' do
-  # TODO: fix log_dir path so it works for both Vagrant and Travis
-  context 'passing in grindr-base with recipes/ directory mounted' do
-    describe '.log' do
-      it 'makes sure the recipes/grindr-base/log/ directory exists' do
-        pkg_name = 'grindr-base'
-        Build.log(pkg_name)
-        log_dir = "recipes/#{pkg_name}/log"
-        expect(Dir.exist?(log_dir)).to be true
-      end
-    end
-
+  context 'passing in golang example package' do
     describe '.build_package' do
-
       before(:all) do
-        @name    = 'grindr-base'
-        @pkg_dir = "recipes/#{@name}/pkg"
-        @return  = Build.build_package(@name)
+        @pkg_path = 'examples/golang'
+        @pkg_dir  = "#{@pkg_path}/pkg"
+        @return   = Build.build_package(@pkg_path)
       end
-      it 'creates directory recipes/grindr-base/pkg' do
+
+      it 'creates directory examples/golang/pkg' do
         expect(Dir.exist?(@pkg_dir)).to be true
       end
 
@@ -32,27 +22,33 @@ describe 'Build' do
         expect(@return).to be 'success'
       end
 
-      it 'creates an .rpm - TODO' do
+      it '# TODO: creates an .rpm' do
         # TODO
       end
 
-      it 'creates an .rpm with the correct version number - TODO' do
+      it '# TODO: creates an .rpm with the correct version number' do
         # TODO
         # recipe = YAML.load(File.read("recipes/#{@name}/recipe.rb"))
       end
     end
 
-
     describe '.clean' do
-      it 'successfully cleans grindr-base' do
-        pkg = 'grindr-base'
-        expect(Build.clean(pkg)).to be 'success'
+      before(:all) do
+        @pkg_path = 'examples/golang'
+      end
+
+      it 'fpm-cook clean command returns successfully' do
+        expect(Build.clean(@pkg_path)).to be 'success'
       end
 
       it 'deletes directory tmp-dest/' do
-        pkg      = 'grindr-base'
-        tmp_path = 'recipes/' + pkg + '/tmp-dest'
-        expect(Dir.exist?(tmp_path)).to be false
+        tmp_dest = @pkg_path + '/tmp-dest'
+        expect(Dir.exist?(tmp_dest)).to be false
+      end
+
+      it 'deletes directory tmp-build/' do
+        tmp_build = @pkg_path + '/tmp-build'
+        expect(Dir.exist?(tmp_build)).to be false
       end
     end
   end
