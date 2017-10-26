@@ -5,22 +5,31 @@ require 'json'
 require 'open3'
 require 'fpm/cookery/recipe'
 
+def json_inspect(path)
+  cmd = 'fpm-cook inspect ' + path
+  Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
+    pid = wait_thr.pid
+    stdin.close
+    json   = stdout.read
+    err    = stderr.read
+    status = wait_thr.value
+    puts err unless status.exitstatus.zero?
+    return JSON.parse(json)
+  end
+end
+
+def load_projects(recipe_path)
+  # go through all directories in recipe_path
+  # if directory contains recipe.rb file, it's a project
+
+end
+
 class Project
   attr_accessor :name, :data, :packages
 
   def initialize(path)
     @path = path
-    cmd   = 'fpm-cook inspect ' + @path
-
-    Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
-      pid = wait_thr.pid
-      stdin.close
-      json   = stdout.read
-      err    = stderr.read
-      @data  = JSON.parse(json)
-      status = wait_thr.value
-      puts err unless status.exitstatus.zero?
-    end
+    @data = json_inspect(path)
 
     @packages = []
     if chain_package?
@@ -28,7 +37,7 @@ class Project
       # for each r in chain_recipes
       #   create a package object with appropriate @data
     else
-      @packages.push(Package.new(@path, @data))
+      @packages.push(Package.new(@path))
     end
   end
 
@@ -39,21 +48,22 @@ class Project
   def chain_recipes
     @data['chain_recipes'] if chain_package?
   end
+end
 
-  class Package
-    attr_accessor :name, :data, :recipe, :dependencies
+class Package
+  attr_accessor :name, :data, :recipe, :project
+  attr_accessor :dependencies
 
-    def initialize(path, data)
-      @data         = data
-      @path         = path
-      @name         = @data['name']
-      @recipe       = path + '/recipe.rb'
-      @dependencies = @data['depends']
-    end
+  def initialize(path)
+    @data         = json_inspect(path)
+    @path         = path
+    @name         = @data['name']
+    @recipe       = path + '/recipe.rb'
+    @dependencies = @data['depends']
+  end
 
-    def depends?
-      return false if dependencies.empty?
-      true
-    end
+  def depends?
+    return false if dependencies.empty?
+    true
   end
 end
