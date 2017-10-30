@@ -4,17 +4,17 @@
 require 'rspec'
 require 'revolution/project'
 
-describe 'json_inspect' do
-  context 'when given valid package directory' do
-    it 'returns hash object containing json data' do
+describe 'inspect_recipe' do
+  context 'when passed a valid base directory containing recipe directories' do
+    it 'returns hash object containing recipe data' do
       path = 'examples/golang'
-      expect(json_inspect(path)).to be_a Hash
+      expect(inspect_recipe(path)).to be_a Hash
     end
   end
   context 'when given an invalid package directory' do
     it 'returns nil' do
       path = Dir.pwd
-      expect(json_inspect(path)).to be nil
+      expect(inspect_recipe(path)).to be nil
     end
   end
 end
@@ -34,7 +34,7 @@ describe 'load_projects' do
 end
 
 describe 'Project' do
-  context 'project with one package' do
+  context 'project with one recipe' do
     before(:all) do
       @proj = Project.new('examples/golang')
     end
