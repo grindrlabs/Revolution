@@ -35,7 +35,7 @@ module Recipes
 
     def initialize(path)
       @data = Recipes.inspect(path)
-
+      @name = data['name']
       @targets = []
       if chain_package?
         # TODO
