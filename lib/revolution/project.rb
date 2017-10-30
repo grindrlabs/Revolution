@@ -26,10 +26,25 @@ def json_inspect(path)
   end
 end
 
-def load_projects(recipe_path)
-  # go through all directories in recipe_path
-  # if directory contains recipe.rb file, it's a project
 
+# Takes in path of directory containing all packages
+# Returns a list of Project objects populated with project and package data
+def load_projects(base_path)
+  projects = []
+  subdirs  = []
+  root = Dir.pwd
+  # Get subdirectories immediately inside of base_path
+  if Dir.exist?(base_path)
+    Dir.chdir(base_path)
+    subdirs = Dir.glob('*/')
+    Dir.chdir(root)
+  end
+
+  subdirs.each do |subpath|
+    path = base_path + subpath
+    projects.push(Project.new(path)) if File.exist?(path + '/recipe.rb')
+  end
+  projects
 end
 
 class Project

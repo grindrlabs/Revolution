@@ -21,7 +21,15 @@ end
 
 describe 'load_projects' do
   context 'when passed a valid directory containing recipes' do
-    it 'returns a list of projects'
+    before(:all) do
+      @projects = load_projects('examples/')
+    end
+    it 'returns an array' do
+      expect(@projects).to be_an Array
+    end
+    it 'returns an array of one or more Project objects' do
+      expect(@projects[0]).to be_a Project
+    end
   end
 end
 
