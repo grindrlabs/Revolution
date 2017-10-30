@@ -13,8 +13,16 @@ def json_inspect(path)
     json   = stdout.read
     err    = stderr.read
     status = wait_thr.value
-    puts err unless status.exitstatus.zero?
-    return JSON.parse(json)
+    # puts err unless status.exitstatus.zero?
+    begin
+      data = JSON.parse(json)
+    rescue JSON::ParserError
+      # this should never happen
+      # should only be called when there's a valid recipe file
+      # but it's here for testing
+      return nil
+    end
+    return data
   end
 end
 
