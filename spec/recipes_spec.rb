@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require 'rspec'
-require 'revolution/project'
+require 'revolution/recipes'
 
 describe 'inspect_recipe' do
   context 'when passed a valid base directory containing recipe directories' do
@@ -111,3 +111,4 @@ describe 'Package' do
     end
   end
 end
+
