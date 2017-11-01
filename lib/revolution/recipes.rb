@@ -5,11 +5,11 @@ require 'json'
 require 'open3'
 require 'fpm/cookery/recipe'
 
-module Projects
-  # Takes in path of directory containing all packages
-  # Returns a list of Project objects populated with project and package data
-  def self.load_projects(base_path)
-    projects = []
+module Recipes
+  # Takes in path of directory containing all @targets
+  # Returns a list of Recipe objects populated with project and package data
+  def self.load_recipes(base_path)
+    recipes = []
 
     # Get subdirectories immediately inside of base_path
     recipe_dirs = []
@@ -20,29 +20,29 @@ module Projects
       Dir.chdir(root)
     end
 
-    # Create Project object for each recipe_dir
+    # Create Recipe object for each recipe_dir
     recipe_dirs.each do |subpath|
       path = base_path + subpath
-      projects.push(Project.new(path)) if File.exist?(path + '/recipe.rb')
+      recipes.push(Recipe.new(path)) if File.exist?(path + '/recipe.rb')
     end
-    projects
+    recipes
   end
 
   # Stores data for a single recipe
-  # One recipe has one or more target packages
-  class Project
-    attr_accessor :name, :data, :packages
+  # One recipe has one or more target @targets
+  class Recipe
+    attr_accessor :name, :data, :targets
 
     def initialize(path)
-      @data = Projects.inspect_recipe(path)
+      @data = Recipes.inspect(path)
 
-      @packages = []
+      @targets = []
       if chain_package?
         # TODO
         # for each r in chain_recipes
         #   create a package object with appropriate @data
       else
-        @packages.push(Package.new(path))
+        @targets.push(Target.new(path))
       end
     end
 
@@ -56,14 +56,12 @@ module Projects
   end
 
   # Stores data for a single target package and its dependencies
-  class Package
-    attr_accessor :name, :data, :recipe, :project
-    attr_accessor :dependencies
+  class Target
+    attr_accessor :name, :data, :dependencies
 
     def initialize(path)
-      @data         = Projects.inspect_recipe(path)
+      @data         = Recipes.inspect(path)
       @name         = @data['name']
-      @recipe       = path + '/recipe.rb'
       @dependencies = @data['depends']
     end
 
@@ -73,7 +71,7 @@ module Projects
     end
   end
 
-  def self.inspect_recipe(path)
+  def self.inspect(path)
     recipe_json = nil
     data        = nil
 
