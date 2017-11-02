@@ -2,7 +2,7 @@
 
 class Golang < FPM::Cookery::Recipe
 
-  name        'grindr-golang'
+  name        'golang'
   description 'Go is an open source programming language'
   homepage    'http://golang.org/'
   maintainer  'ISRE <isre@grindr.com>'
