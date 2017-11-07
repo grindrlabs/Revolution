@@ -6,11 +6,50 @@ require 'revolution/order'
 require 'revolution/recipes'
 
 describe 'Order' do
+  before(:all) do
+    @projects = Recipes.load_recipes('examples/')
+    @targets  = Order.targets(@projects)
+    @nodes = Order.nodes(@targets)
+  end
+
+  describe 'targets' do
+    it 'returns a list of Target objects' do
+      expect(@targets).to be_an Array
+      expect(@targets[0]).to be_a Recipes::Target
+    end
+  end
+
+  describe 'targets_map' do
+    it 'returns a Hash storing Target objects' do
+      map = Order.targets_map(@targets)
+      expect(map).to be_a Hash
+      map.keys.each do |key|
+        expect(map[key]).to be_a Recipes::Target
+      end
+    end
+  end
+
+  describe 'nodes' do
+    it 'returns a list of PackageTreeNode objects' do
+      expect(@nodes).to be_an Array
+      expect(@nodes[0]).to be_an Order::PackageTreeNode
+    end
+  end
+
+  describe 'nodes_map' do
+    it 'returns a Hash storing PackageTreeNode objects' do
+      map = Order.nodes_map(@nodes)
+      expect(map).to be_a Hash
+      # map.keys.each do |key|
+      #   # expect(map[key]).to be_a Order::PackageTreeNode
+      # end
+    end
+  end
+
   describe 'build_order' do
     context 'when passed a valid list of projects' do
       it 'returns a list of @targets to build ordered by dependency' do
-        projects = Recipes.load_recipes('examples/')
-        expect(Order.resolve_dependencies(projects)).to be_an Array
+        expect(Order.resolve_dependencies(@projects)).to be_an Array
       end
     end
   end

@@ -15,31 +15,58 @@ module Order
     end
   end
 
-  def self.resolve_dependencies(projects)
-    # Assemble list of all the @targets in all the projects
+  # Assemble list of all the @targets in all the projects
+  def self.targets(projects)
     targets = []
     projects.each do |proj|
       proj.targets.each do |pkg|
         targets.push(pkg)
       end
     end
+    targets
+  end
 
-    # Create Hashmap storing @targets by name
+  # Create Hashmap storing @targets by name
+  def self.targets_map(targets)
     targets_map = {}
     targets.each do |pkg|
       targets_map[pkg.name] = pkg
     end
-    # Set of PackageTreeNodes, each node obj points to a package
+    targets_map
+  end
+
+  # Set of PackageTreeNodes, each node obj points to a package
+  def self.nodes(targets)
     nodes = []
     targets.each do |pkg|
       nodes.push(PackageTreeNode.new(pkg))
     end
+    nodes
+  end
 
-    # Hashmap storing nodes by package name
+  # Hashmap storing nodes by package name
+  def self.nodes_map(nodes)
     nodes_map = {}
     nodes.each do |node|
       nodes_map[node.package.name] = node
     end
+  end
+
+  def self.pp_nodes_children(nodes)
+    puts "\n\nPARENT DEPENDS ON CHILD:"
+    nodes.each do |node|
+      puts node.package.name
+      node.children.each do |child|
+        puts '    ' + child.package.name
+      end
+    end
+  end
+
+  def self.resolve_dependencies(projects)
+    targets     = targets(projects)
+    targets_map = targets_map(targets)
+    nodes       = nodes(targets)
+    nodes_map   = nodes_map(nodes)
 
     # Parent depends on child
     nodes.each do |node|
@@ -50,18 +77,23 @@ module Order
         end
       end
     end
+    pp_nodes_children(nodes)
 
     head = nil
     nodes.each do |node|
       next unless node.parent.nil?
       head = node
+      # FIXME: missing a step here
       break
     end
 
     stack = []
     traverse_build_tree(head, stack)
+
     puts "\n\nBUILD ORDER:"
-    pp stack
+    stack.each do |thing|
+      puts "#{thing.package.name} <- #{thing.children.each { |child| child.name }}"
+    end
   end
 
   # Traverse tree to get build order
