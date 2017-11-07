@@ -9,7 +9,7 @@ describe 'Order' do
   before(:all) do
     @projects = Recipes.load_recipes('examples/')
     @targets  = Order.targets(@projects)
-    @nodes = Order.nodes(@targets)
+    @nodes    = Order.nodes(@targets)
   end
 
   describe 'targets' do
@@ -40,9 +40,9 @@ describe 'Order' do
     it 'returns a Hash storing PackageTreeNode objects' do
       map = Order.nodes_map(@nodes)
       expect(map).to be_a Hash
-      # map.keys.each do |key|
-      #   # expect(map[key]).to be_a Order::PackageTreeNode
-      # end
+      map.keys.each do |key|
+        expect(map[key]).to be_a Order::PackageTreeNode
+      end
     end
   end
 

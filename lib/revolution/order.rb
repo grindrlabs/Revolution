@@ -50,6 +50,7 @@ module Order
     nodes.each do |node|
       nodes_map[node.package.name] = node
     end
+    nodes_map
   end
 
   def self.pp_nodes_children(nodes)
@@ -59,6 +60,13 @@ module Order
       node.children.each do |child|
         puts '    ' + child.package.name
       end
+    end
+  end
+
+  def self.pp_build_order(stack)
+    puts "\n\nBUILD ORDER:"
+    stack.each do |thing|
+      puts "#{thing.package.name} <- #{thing.children.each { |child| child.name }}"
     end
   end
 
@@ -89,11 +97,8 @@ module Order
 
     stack = []
     traverse_build_tree(head, stack)
+    pp_build_order(stack)
 
-    puts "\n\nBUILD ORDER:"
-    stack.each do |thing|
-      puts "#{thing.package.name} <- #{thing.children.each { |child| child.name }}"
-    end
   end
 
   # Traverse tree to get build order
