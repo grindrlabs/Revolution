@@ -46,21 +46,25 @@ describe 'Order' do
     end
   end
 
-  describe 'build_order' do
-    context 'when passed a valid list of projects' do
-      it 'returns a list of @targets to build ordered by dependency' do
-        expect(Order.resolve_dependencies(@projects)).to be_an Array
+  describe 'resolve_dependencies' do
+    context 'when passed a directory of recipes' do
+      it 'returns a stack in the proper build order' do
+        @final = Order.resolve_dependencies(@projects)
+        expect(@final).to be_an Array
+        expect(@final.length).to equal(@targets.length)
       end
     end
   end
 
   describe 'traverse_build_tree' do
-    context 'when given valid head and stack' do
-      it 'returns an array' do
+    context 'when given a single node' do
+      it 'returns a stack of length 1' do
         pkg   = Recipes::Target.new('examples/golang')
         head  = Order::PackageTreeNode.new(pkg)
         stack = []
-        expect(Order.traverse_build_tree(head, stack)).to be_an Array
+        stack = Order.traverse_build_tree(head, stack)
+        expect(stack).to be_an Array
+        expect(stack.length).to be 1
       end
     end
   end

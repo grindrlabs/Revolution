@@ -66,7 +66,10 @@ module Order
   def self.pp_build_order(stack)
     puts "\n\nBUILD ORDER:"
     stack.each do |thing|
-      puts "#{thing.package.name} <- #{thing.children.each { |child| child.name }}"
+      puts thing.package.name
+      thing.children.each do |child|
+        puts "    #{child.package.name}"
+      end
     end
   end
 
@@ -76,10 +79,11 @@ module Order
     nodes       = nodes(targets)
     nodes_map   = nodes_map(nodes)
 
+    # Build the packages tree
     # Parent depends on child
     nodes.each do |node|
       node.package.dependencies.each do |dep|
-        if targets_map.key?(dep)
+        if nodes_map.key?(dep)
           node.children.push(nodes_map[dep])
           nodes_map[dep].parent = node
         end
@@ -87,18 +91,31 @@ module Order
     end
     pp_nodes_children(nodes)
 
-    head = nil
+    puts "\n\n"
+    heads = []
+    # Goes through list of nodes to find the first that doesn't have a parent
     nodes.each do |node|
+      name = node.package.name unless node.package.nil?
+      par  = node.parent.package.name unless node.parent.nil?
+      puts name.to_s + ' -> ' + par.to_s
       next unless node.parent.nil?
-      head = node
-      # FIXME: missing a step here
-      break
+      heads.push(node)
     end
 
-    stack = []
-    traverse_build_tree(head, stack)
-    pp_build_order(stack)
+    puts "\n\nHEADS:"
+    heads.each do |head|
+      puts head.package.name
+    end
 
+    final = []
+    heads.each do |head|
+      stack = []
+      traverse_build_tree(head, stack)
+      pp_build_order(stack)
+      final.concat(stack)
+    end
+    puts "\n\nfinal length: #{final.length}"
+    final
   end
 
   # Traverse tree to get build order
