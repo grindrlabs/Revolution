@@ -73,6 +73,21 @@ module Order
     end
   end
 
+  def self.pp_dot_graph(nodes)
+    puts "\n\n"
+    puts 'digraph G {'
+    nodes.each do |node|
+      name = node.package.name unless node.package.nil?
+      puts("\"#{name.to_s}\";")
+      unless node.children.empty?
+        node.children.each do |child|
+          puts("\"#{name.to_s}\" -> \"#{child.package.name.to_s}\";")
+        end
+      end
+    end
+    puts '}'
+  end
+
   def self.resolve_dependencies(projects)
     targets     = targets(projects)
     targets_map = targets_map(targets)
@@ -89,15 +104,14 @@ module Order
         end
       end
     end
-    pp_nodes_children(nodes)
+    # pp_nodes_children(nodes)
+    pp_dot_graph(nodes)
 
-    puts "\n\n"
     heads = []
     # Goes through list of nodes to find the first that doesn't have a parent
     nodes.each do |node|
       name = node.package.name unless node.package.nil?
       par  = node.parent.package.name unless node.parent.nil?
-      puts name.to_s + ' -> ' + par.to_s
       next unless node.parent.nil?
       heads.push(node)
     end
@@ -111,7 +125,7 @@ module Order
     heads.each do |head|
       stack = []
       traverse_build_tree(head, stack)
-      pp_build_order(stack)
+      # pp_build_order(stack)
       final.concat(stack)
     end
     puts "\n\nfinal length: #{final.length}"
