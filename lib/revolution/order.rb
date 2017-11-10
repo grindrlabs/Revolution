@@ -104,38 +104,33 @@ module Order
         end
       end
     end
-    # pp_nodes_children(nodes)
-    pp_dot_graph(nodes)
 
-    heads = []
-    # Goes through list of nodes to find the first that doesn't have a parent
+    roots = []
+    # Goes through list of nodes to find root nodes
+    # Nothing depends on root nodes
     nodes.each do |node|
-      name = node.package.name unless node.package.nil?
-      par  = node.parent.package.name unless node.parent.nil?
       next unless node.parent.nil?
-      heads.push(node)
-    end
-
-    puts "\n\nHEADS:"
-    heads.each do |head|
-      puts head.package.name
+      roots.push(node)
     end
 
     final = []
-    heads.each do |head|
-      stack = []
-      traverse_build_tree(head, stack)
-      # pp_build_order(stack)
-      final.concat(stack)
+    roots.each do |root|
+      list = []
+      traverse_build_tree(root, list)
+      final.concat(list)
     end
     puts "\n\nfinal length: #{final.length}"
+    puts "\n\nBUILD ORDER:"
+    final.each do |node|
+      puts node.package.name
+    end
     final
   end
 
-  # Traverse tree to get build order
+  # Recursively traverse tree to get build order
   # Build leaf nodes first, then build parents
-  def self.traverse_build_tree(node, stack)
-    node.children.each { |child| traverse_build_tree(child, stack) } unless node.nil?
-    stack.push(node)
+  def self.traverse_build_tree(node, list)
+    node.children.each { |child| traverse_build_tree(child, list) } unless node.nil?
+    list.push(node) unless list.include?(node) # skip duplicates
   end
 end
