@@ -88,30 +88,36 @@ module Order
     puts '}'
   end
 
-  def self.resolve_dependencies(projects)
-    targets     = targets(projects)
-    targets_map = targets_map(targets)
-    nodes       = nodes(targets)
-    nodes_map   = nodes_map(nodes)
-
-    # Build the packages tree
-    # Parent depends on child
+  def self.build_trees(nodes)
+    nodes_map = nodes_map(nodes)
     nodes.each do |node|
       node.package.dependencies.each do |dep|
         if nodes_map.key?(dep)
           node.children.push(nodes_map[dep])
+          # FIXME: doesn't handle multiple parents
           nodes_map[dep].parent = node
         end
       end
     end
+  end
 
+  # Goes through list of nodes to find root nodes
+  def self.find_root_nodes(nodes)
     roots = []
-    # Goes through list of nodes to find root nodes
-    # Nothing depends on root nodes
     nodes.each do |node|
       next unless node.parent.nil?
       roots.push(node)
     end
+    roots
+  end
+
+  # From list of projects, resolves dependencies
+  # and returns a list of the final build order
+  def self.resolve_build_order(projects)
+    targets = targets(projects)
+    nodes   = nodes(targets)
+    build_trees(nodes)
+    roots = find_root_nodes(nodes)
 
     final = []
     roots.each do |root|
@@ -119,12 +125,7 @@ module Order
       traverse_build_tree(root, list)
       final.concat(list)
     end
-    puts "\n\nfinal length: #{final.length}"
-    puts "\n\nBUILD ORDER:"
-    final.each do |node|
-      puts node.package.name
-    end
-    final
+    final.uniq
   end
 
   # Recursively traverse tree to get build order

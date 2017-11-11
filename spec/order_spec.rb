@@ -46,12 +46,42 @@ describe 'Order' do
     end
   end
 
-  describe 'resolve_dependencies' do
+  before(:all) do
+    @final = Order.resolve_build_order(@projects)
+  end
+
+  describe 'resolve_build_order' do
     context 'when passed a directory of recipes' do
-      it 'returns a stack in the proper build order' do
-        @final = Order.resolve_dependencies(@projects)
+      it 'returns a list of PackageTreeNodes' do
+        @final = Order.resolve_build_order(@projects)
         expect(@final).to be_an Array
+        @final.each do |thing|
+          expect(thing).to be_an Order::PackageTreeNode
+        end
+      end
+      it 'returns a list with the same number of nodes as target packages' do
         expect(@final.length).to equal(@targets.length)
+      end
+    end
+  end
+
+  describe 'build_trees' do
+    context 'when passed a list of package nodes' do
+      it 'adds dependencies to list of node version' do
+        Order.build_trees(@nodes)
+        expect(@nodes).to be_an Array
+      end
+    end
+  end
+
+  describe 'find_root_nodes' do
+    context 'when passed a list of package nodes' do
+      it 'returns a list of nodes with no parents' do
+        roots = Order.find_root_nodes(@nodes)
+        expect(roots).to be_an Array
+        roots.each do |root|
+          expect(root.parent).to be nil
+        end
       end
     end
   end
