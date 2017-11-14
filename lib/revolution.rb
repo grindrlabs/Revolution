@@ -1,8 +1,9 @@
-require "revolution/version"
+# frozen_string_literal: true
+
+require 'revolution/version'
 
 module Revolution
-
   def self.run
-    puts "Running!"
+    puts 'Running!'
   end
 end

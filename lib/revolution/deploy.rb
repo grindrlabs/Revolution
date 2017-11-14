@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 module Deploy
-
   def self.initialize(aws = nil)
     puts '[Inside Deploy.initialize]'
     puts 'Getting AWS credentials...'

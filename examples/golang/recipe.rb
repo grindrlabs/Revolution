@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 class Golang < FPM::Cookery::Recipe
-
   name        'golang'
   description 'Go is an open source programming language'
   homepage    'http://golang.org/'
@@ -21,11 +21,10 @@ class Golang < FPM::Cookery::Recipe
   conflicts 'golang', 'golang-go', 'golang-src', 'golang-doc'
   replaces 'golang', 'golang-go', 'golang-src', 'golang-doc'
 
-  def build
-  end
+  def build; end
 
   def install
     # install into grindr location
-    destdir("/usr/lib64/go").install(Dir['*'])
+    destdir('/usr/lib64/go').install(Dir['*'])
   end
 end

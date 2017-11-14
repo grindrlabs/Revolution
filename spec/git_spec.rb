@@ -5,7 +5,6 @@ require 'rspec'
 require 'revolution/git'
 
 describe 'Git' do
-
   describe '.init_repo' do
     it 'returns a rugged Repository object' do
       expect(Git.init_repo).to be_a Rugged::Repository
@@ -31,7 +30,5 @@ describe 'Git' do
         expect(Git.diff).to be_a Rugged::Diff
       end
     end
-
   end
-
 end
