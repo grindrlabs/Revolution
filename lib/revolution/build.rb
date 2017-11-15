@@ -2,13 +2,12 @@
 # frozen_string_literal: true
 
 module Build
-
   def self.run(pkg_path, command)
     fpm_cook = 'fpm-cook package --no-deps' if command == 'build'
     fpm_cook = 'fpm-cook clean' if command == 'clean'
 
-    pid = Process.spawn("#{fpm_cook} #{pkg_path}/recipe.rb")
-    pid, status = Process.wait2(pid)
+    pid          = Process.spawn("#{fpm_cook} #{pkg_path}/recipe.rb")
+    _pid, status = Process.wait2(pid)
     status
   end
 

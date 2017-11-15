@@ -5,7 +5,6 @@ require 'rspec'
 require 'revolution/travis_ci'
 
 RSpec.describe 'TravisCI' do
-
   describe '.pull_request?' do
     context 'when pushed from base branch' do
       it 'is not a pull request' do

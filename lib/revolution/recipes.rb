@@ -34,8 +34,8 @@ module Recipes
     attr_accessor :name, :data, :targets
 
     def initialize(path)
-      @data = Recipes.inspect(path)
-      @name = data['name']
+      @data    = Recipes.inspect(path)
+      @name    = data['name']
       @targets = []
       if chain_package?
         # TODO
@@ -77,10 +77,10 @@ module Recipes
 
     cmd = 'fpm-cook inspect ' + path
     Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
-      pid = wait_thr.pid
+      _pid = wait_thr.pid
       stdin.close
       recipe_json = stdout.read
-      err         = stderr.read
+      _err        = stderr.read
       status      = wait_thr.value
       puts 'ERROR: Invalid recipe.rb file!' unless status.exitstatus.zero?
     end
@@ -95,6 +95,4 @@ module Recipes
     end
     data
   end
-
 end
-
