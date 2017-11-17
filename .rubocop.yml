@@ -10,3 +10,7 @@ Metrics/MethodLength:
 
 Style/Documentation:
   Enabled: false
+
+Performance/RegexpMatch:
+  Exclude:
+    - 'Vagrantfile'
