@@ -24,7 +24,7 @@ Vagrant.configure('2') do |config|
   # Tweak the VMs configuration.
   config.vm.provider 'virtualbox' do |v|
     v.cpus = [Etc.nprocessors, 2].min
-    v.linked_clone = true if Vagrant::VERSION.match?(/^1.8/)
+    v.linked_clone = true if Vagrant::VERSION =~ /^1.8/
   end
 
   config.vm.synced_folder '.', '/vagrant/',
