@@ -5,7 +5,7 @@ require 'rspec'
 require 'revolution/order'
 require 'revolution/recipes'
 
-describe 'Order' do
+RSpec.describe 'Order' do
   before(:all) do
     @projects = Recipes.load_recipes('examples/')
     @targets  = Order.targets(@projects)
@@ -100,7 +100,7 @@ describe 'Order' do
   end
 end
 
-describe 'PackageTreeNode' do
+RSpec.describe 'PackageTreeNode' do
   describe '#initialize' do
     it 'returns a PackageTreeNode object' do
       pkg = Recipes::Target.new('examples/package-with-deps')

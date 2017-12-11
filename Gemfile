@@ -8,4 +8,6 @@ gem 'rake'
 gem 'rspec'
 gem 'rubocop'
 gem 'rugged'
+gem 'thor'
 gem 'xmlrpc'
+gemspec

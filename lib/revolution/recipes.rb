@@ -31,12 +31,12 @@ module Recipes
   # Stores data for a single recipe
   # One recipe has one or more target @targets
   class Recipe
-    attr_accessor :name, :data, :targets
+    attr_accessor :package_name, :data, :targets
 
     def initialize(path)
-      @data    = Recipes.inspect(path)
-      @name    = data['name']
-      @targets = []
+      @data         = Recipes.inspect(path)
+      @package_name = data['name']
+      @targets      = []
       if chain_package?
         # TODO
         # for each r in chain_recipes
@@ -57,11 +57,11 @@ module Recipes
 
   # Stores data for a single target package and its dependencies
   class Target
-    attr_accessor :name, :data, :dependencies
+    attr_accessor :package_name, :data, :dependencies
 
     def initialize(path)
       @data         = Recipes.inspect(path)
-      @name         = @data['name']
+      @package_name = @data['name']
       @dependencies = @data['depends']
     end
 

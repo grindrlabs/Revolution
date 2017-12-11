@@ -4,7 +4,7 @@
 require 'rspec'
 require 'revolution/deploy'
 
-describe 'Deploy' do
+RSpec.describe 'Deploy' do
   describe '.initialize' do
     context 'with no arguments' do
       it 'returns nil' do

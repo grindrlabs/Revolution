@@ -2,53 +2,55 @@
 # frozen_string_literal: true
 
 require 'rspec'
-require 'yaml'
 require 'revolution/build'
 
-describe 'Build' do
-  context 'passing in golang example package' do
+RSpec.describe 'Build' do
+  context 'using an example package' do
+    let(:pkg_path) { 'examples/golang' }
+    let(:recipe_root) { 'examples' }
+
     describe '.build_package' do
-      before(:all) do
-        @pkg_path = 'examples/golang'
-        @pkg_dir  = "#{@pkg_path}/pkg"
-        @return   = Build.build_package(@pkg_path)
-      end
+      it 'returns successfully'
+      it 'creates an .rpm'
+      it 'creates an .rpm with the correct version number'
+    end
 
-      it 'creates directory examples/golang/pkg' do
-        expect(Dir.exist?(@pkg_dir)).to be true
-      end
-
-      it 'returns successfully' do
-        expect(@return).to be 'success'
-      end
-
-      it '# TODO: creates an .rpm' do
-        # TODO
-      end
-
-      it '# TODO: creates an .rpm with the correct version number' do
-        # TODO
-        # recipe = YAML.load(File.read("recipes/#{@name}/recipe.rb"))
-      end
+    describe '.install_build_deps' do
+      it 'returns successfully'
+      it 'installs required dependencies'
     end
 
     describe '.clean' do
-      before(:all) do
-        @pkg_path = 'examples/golang'
+      let(:tmp_dest) { pkg_path + '/tmp-dest' }
+      let(:tmp_build) { pkg_path + '/tmp-build' }
+
+      it 'returns successfully' do
+        expect(Build.clean(pkg_path)).to be 0
       end
 
-      it 'fpm-cook clean command returns successfully' do
-        expect(Build.clean(@pkg_path)).to be 'success'
-      end
-
-      it 'deletes directory tmp-dest/' do
-        tmp_dest = @pkg_path + '/tmp-dest'
+      it 'removes directory tmp-dest/' do
         expect(Dir.exist?(tmp_dest)).to be false
       end
 
-      it 'deletes directory tmp-build/' do
-        tmp_build = @pkg_path + '/tmp-build'
+      it 'removes directory tmp-build/' do
         expect(Dir.exist?(tmp_build)).to be false
+      end
+    end
+
+    describe '.remove_package' do
+      let(:pkg_dir) { pkg_path + '/pkg' }
+      let(:cache) { pkg_path + '/cache' }
+
+      it 'returns successfully' do
+        expect(Build.remove_package(pkg_path)).to be 0
+      end
+
+      it 'removes pkg/ subdirectory' do
+        expect(Dir.exist?(pkg_dir)).to be false
+      end
+
+      it 'removes cache/ subdirectory' do
+        expect(Dir.exist?(cache)).to be false
       end
     end
   end

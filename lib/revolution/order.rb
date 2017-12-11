@@ -6,12 +6,13 @@ require 'pp'
 
 module Order
   class PackageTreeNode
-    attr_accessor :package, :parent, :children
+    attr_accessor :package, :parent, :children, :package_name
 
     def initialize(package)
       @package  = package
       @parent   = nil
       @children = []
+      @package_name = @package.package_name
     end
   end
 
@@ -32,7 +33,7 @@ module Order
   def self.targets_map(targets)
     targets_map = {}
     targets.each do |pkg|
-      targets_map[pkg.name] = pkg
+      targets_map[pkg.package_name] = pkg
     end
     targets_map
   end
@@ -51,7 +52,7 @@ module Order
   def self.nodes_map(nodes)
     nodes_map = {}
     nodes.each do |node|
-      nodes_map[node.package.name] = node
+      nodes_map[node.package.package_name] = node
     end
     nodes_map
   end
@@ -111,9 +112,9 @@ module Order
   def self.pp_nodes_children(nodes)
     puts "\n\nPARENT DEPENDS ON CHILD:"
     nodes.each do |node|
-      puts node.package.name
+      puts node.package.package_name
       node.children.each do |child|
-        puts '    ' + child.package.name
+        puts '    ' + child.package.package_name
       end
     end
   end
@@ -121,9 +122,9 @@ module Order
   def self.pp_build_order(stack)
     puts "\n\nBUILD ORDER:"
     stack.each do |thing|
-      puts thing.package.name
+      puts thing.package.package_name
       thing.children.each do |child|
-        puts "    #{child.package.name}"
+        puts "    #{child.package.package_name}"
       end
     end
   end
@@ -143,13 +144,13 @@ module Order
   end
 
   def self.print_dot_relationships(node)
-    name = node.package.name unless node.package.nil?
+    name = node.package.package_name unless node.package.nil?
     # DOT accepts the same node name multiple times
     # Print node name by itself
     puts("\"#{name}\";")
     node.children.each do |child|
       # Print node name with relationship to child node
-      puts("\"#{name}\" -> \"#{child.package.name}\";") unless node.children.empty?
+      puts("\"#{name}\" -> \"#{child.package.package_name}\";") unless node.children.empty?
     end
   end
 end
