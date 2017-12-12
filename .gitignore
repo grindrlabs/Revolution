@@ -4,8 +4,6 @@
 /.config
 /coverage/
 /InstalledFiles
-pkg/
-/repo/
 */log/
 
 ## Documentation cache and generated files:

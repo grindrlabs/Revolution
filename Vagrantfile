@@ -31,10 +31,6 @@ Vagrant.configure('2') do |config|
                           id: 'tool',
                           mount_options: ['uid=1000', 'gid=1000']
 
-  config.vm.synced_folder '../rpm-packages/', '/vagrant/recipes/',
-                          id: 'recipes',
-                          mount_options: ['uid=1000', 'gid=1000']
-
   # Configure the VM using Ansible
   config.vm.provision :ansible do |ansible|
     ansible.galaxy_role_file = 'requirements.yml'
