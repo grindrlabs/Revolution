@@ -5,11 +5,7 @@
   roles:
     - role: vagrant-ruby-dev
       ruby_version: 2.4.1
-    - role: awscli
   tasks:
-    - name: allow ssh env aws
-      lineinfile: dest=/etc/ssh/sshd_config line="AcceptEnv AWS_*"
-      notify: restart ssh
     - name: install required packages
       package:
         name: "{{ item }}"
