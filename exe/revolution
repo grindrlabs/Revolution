@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'revolution/cli'
+
+Revolution::CLI.start(ARGV)

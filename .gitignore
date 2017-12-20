@@ -26,3 +26,11 @@
 /.galaxy-roles
 /.ruby-version
 /.vagrant
+
+# fpm-cook temporary files
+cache/
+tmp-build/
+tmp-dest/
+
+# built packages
+pkg/

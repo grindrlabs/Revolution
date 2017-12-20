@@ -4,7 +4,7 @@
 require 'rspec'
 require 'revolution/recipes'
 
-describe 'Recipes' do
+RSpec.describe 'Recipes' do
   describe '.inspect' do
     context 'when passed a valid base directory containing recipe directories' do
       it 'returns hash object containing recipe data' do
