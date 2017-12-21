@@ -46,8 +46,10 @@ module Revolution
     end
 
     desc 'deploy', 'Deploy built RPMs to S3 bucket'
+    option :recipe_root, required: true
+    option :config, required: true
     def deploy
-      raise Error::NotImplementedError, '`deploy` has not been implemented'
+      Revolution.deploy(options.config, options.recipe_root)
     end
   end
 end

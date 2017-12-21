@@ -2,7 +2,7 @@
 
 require 'revolution/version'
 require 'revolution/build'
-require 'revolution/deploy'
+require 'revolution/rpm_repository'
 require 'revolution/order'
 require 'revolution/recipes'
 require 'revolution/exceptions'
@@ -62,12 +62,25 @@ module Revolution
     puts "Successfully removed package and temp dirs for #{pkg_name}"
   end
 
+  def self.deploy(config_file, root)
+    puts 'Starting deployment...'
+    bucket  = RPMRepository.get_location(config_file)
+    manager = RPMRepository::Manager.new(bucket: bucket)
+    manager.fetch_repository
+    manager.copy_packages(root)
+    manager.update_metadata
+    manager.upload_repository
+    manager.cleanup
+  end
+
   def self.check_dir(path)
-    raise Error::InvalidDirectory, "#{path} not found" unless Dir.exist?(path)
+    error_msg = "Cannot find directory: #{path}"
+    raise Error::InvalidDirectory, error_msg unless Dir.exist?(path)
   end
 
   def self.check_pkg(path)
-    raise Error::InvalidPackageName, "#{path} not found" unless Dir.exist?(path)
+    error_msg = "Cannot find package at filepath: #{path}"
+    raise Error::InvalidPackageName, error_msg unless Dir.exist?(path)
   end
 
   def self.output_pkg_list(list)
