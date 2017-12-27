@@ -34,6 +34,11 @@
       with_items:
         - { path: /root/.rpmmacros, owner: root}
         - { path: /home/vagrant/.rpmmacros, owner: vagrant }
+    - name:  allow ssh env aws
+      lineinfile: dest=/etc/ssh/sshd_config
+                 regexp="^AcceptEnv LANG LC_\*"
+                 line="AcceptEnv LANG LC_* AWS_*"
+      notify: restart ssh
   handlers:
     - name: restart ssh
       service: name=sshd state=restarted
