@@ -11,7 +11,7 @@ rvm:
 before_install: gem install bundler -v 1.15.4
 
 script:
-  - bundle exec 'rubocop' || echo this is fine #TODO
+  - bundle exec 'rubocop'
   - bundle exec rake
 
 notifications:
