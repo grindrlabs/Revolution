@@ -41,8 +41,15 @@ module Revolution
     end
 
     desc 'sign', 'Sign packages'
-    def sign
-      raise Error::NotImplementedError, '`sign` has not been implemented'
+    option :recipe_root
+    option :all, type: :boolean
+    def sign(rpm_path = nil)
+      if options.all
+        raise Error::ArgumentError, 'Recipe root is required' if options.recipe_root.nil?
+        return Revolution.sign_all(options.recipe_root)
+      end
+      raise Error::ArgumentError, 'RPM path is required' if rpm_path.nil?
+      Revolution.sign_one(rpm_path)
     end
 
     desc 'deploy', 'Deploy built RPMs to S3 bucket'

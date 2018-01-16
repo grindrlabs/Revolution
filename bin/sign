@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Get absolute path for passphrase location
+BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+RPM_PACKAGE_ROOT="$(cd "$BASEDIR/../" && pwd)"
+
+# Sign package using `expect` instead of user input
+password="$(cat "$BASEDIR/conf/pki/passphrase" | tr -d '\n')"
+    expect -c "
+      spawn rpm --addsign $1
+      expect \"pass phrase:\"
+      send $password\x
+      expect eof
+    "
