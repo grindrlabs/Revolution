@@ -32,5 +32,6 @@ cache/
 tmp-build/
 tmp-dest/
 
-# built packages
+# build and deploy
 pkg/
+repo/

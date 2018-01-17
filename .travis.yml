@@ -3,18 +3,16 @@ dist: trusty
 sudo: false
 language: ruby
 
-ruby: 2.4.1
-
 rvm:
   - 2.4.1
 
 before_install:
  - sudo apt-get -qq update
- - sudo apt-get install -y rpm
+ - sudo apt-get install -y rpm createrepo
  - gem install bundler -v 1.15.4
 
 script:
-  - bundle exec 'rubocop'
+  - bundle exec rubocop
   - bundle exec rake
 
 notifications:
