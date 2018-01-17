@@ -2,7 +2,7 @@
 
 module Build
   def self.build_package(pkg_path)
-    build_cmd    = "fpm-cook package --no-deps #{pkg_path}/recipe.rb"
+    build_cmd    = "fpm-cook --platform centos package --no-deps #{pkg_path}/recipe.rb"
     pid          = Process.spawn(build_cmd)
     _pid, status = Process.wait2(pid)
     status.exitstatus
