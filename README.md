@@ -16,7 +16,7 @@ Once finished, shell into the VM:
 $ vagrant ssh
 ```
 
-Then run the Rakefile inside the bundled environment:
+Then run the Rakefile inside the bundled environment (Note: this process may take a few minutes):
 
 ```
 $ bundle exec rake
