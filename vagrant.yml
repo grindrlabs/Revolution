@@ -15,6 +15,7 @@
         - rpm-sign
         - cmake
         - createrepo
+        - expect
     - name: install bundler
       become: true
       become_user: vagrant

@@ -8,7 +8,7 @@ rvm:
 
 before_install:
  - sudo apt-get -qq update
- - sudo apt-get install -y rpm createrepo
+ - sudo apt-get install -y rpm createrepo expect
  - gem install bundler -v 1.15.4
 
 script:

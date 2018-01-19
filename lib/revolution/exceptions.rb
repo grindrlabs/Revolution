@@ -6,5 +6,7 @@ module Revolution
     InvalidDirectory   = Class.new(self)
     InvalidPackageName = Class.new(self)
     InvalidRepository  = Class.new(self)
+    InvalidRPM         = Class.new(self)
+    InvalidSignature   = Class.new(self)
   end
 end

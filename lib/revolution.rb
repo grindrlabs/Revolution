@@ -6,6 +6,7 @@ require 'revolution/rpm_repository'
 require 'revolution/order'
 require 'revolution/recipes'
 require 'revolution/exceptions'
+require 'revolution/rpm_sign'
 require 'thor'
 
 module Revolution
@@ -73,6 +74,28 @@ module Revolution
     manager.cleanup
   end
 
+  def self.sign_all(root)
+    pkg_dirs = Dir.glob(root + '/*/pkg/')
+    pkg_dirs.each do |pkg_dir|
+      check_dir(pkg_dir)
+    end
+    puts 'Signing packages...'
+    rpms = Dir.glob(root + '/*/pkg/*.rpm')
+    rpms.each do |rpm|
+      rpm_path = File.expand_path(rpm)
+      check_rpm(rpm_path)
+      sign_one(rpm_path)
+    end
+  end
+
+  def self.sign_one(rpm_path)
+    rpm_path = File.expand_path(rpm_path)
+    check_rpm(rpm_path)
+    puts "Signing #{rpm_path}..."
+    RPMSign.addsign(rpm_path)
+    raise Error::InvalidSignature unless RPMSign.signed?(rpm_path)
+  end
+
   def self.check_dir(path)
     error_msg = "Cannot find directory: #{path}"
     raise Error::InvalidDirectory, error_msg unless Dir.exist?(path)
@@ -81,6 +104,11 @@ module Revolution
   def self.check_pkg(path)
     error_msg = "Cannot find package at filepath: #{path}"
     raise Error::InvalidPackageName, error_msg unless Dir.exist?(path)
+  end
+
+  def self.check_rpm(path)
+    basename = File.basename(path)
+    raise Error::InvalidRPM, "#{basename} not found" unless File.exist?(path)
   end
 
   def self.output_pkg_list(list)
