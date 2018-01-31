@@ -18,8 +18,7 @@ module Revolution
     desc 'order', 'Get build order based on dependencies'
     option :recipe_root, required: true
     def order
-      puts 'Getting build order...'
-      Revolution.sort_recipes(options.recipe_root)
+      Revolution.print_build_order(options.recipe_root)
     end
 
     desc 'build', 'Build packages in order according to dependencies'

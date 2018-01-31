@@ -11,19 +11,21 @@ require 'revolution/utils'
 require 'thor'
 
 module Revolution
-  def self.sort_recipes(recipe_root)
+  def self.get_build_order(recipe_root)
     puts 'Getting build order...' if Utils.valid_recipe_root?(recipe_root)
-    recipes        = Recipes.load_recipes(recipe_root)
-    sorted_recipes = Order.resolve_build_order(recipes)
+    recipes = Recipes.load_recipes(recipe_root)
+    Order.resolve_build_order(recipes)
+  end
+
+  def self.print_build_order(recipe_root)
+    sorted_recipes = get_build_order(recipe_root)
     puts 'Recipes will build in the following order:'
-    sorted_names = sorted_recipes.map(&:package_name)
-    Utils.print_packages(sorted_names)
-    sorted_recipes
+    Utils.print_packages(sorted_recipes.map(&:package_name))
   end
 
   def self.build_all(recipe_root)
     puts 'Building packages in order...' if Utils.valid_recipe_root?(recipe_root)
-    sorted_recipes = sort_recipes(recipe_root)
+    sorted_recipes = get_build_order(recipe_root)
     built_packages = sorted_recipes.map do |recipe|
       package_name = recipe.package_name
       build_one(recipe_root, package_name)
