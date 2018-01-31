@@ -45,21 +45,34 @@ module Revolution
 
   def self.clean_all(recipe_root)
     puts 'Removing packages...' if Utils.valid_recipe_root?(recipe_root)
-    recipes          = Recipes.load_recipes(recipe_root)
-    cleaned_packages = recipes.map do |recipe|
-      package_name = recipe.package_name
-      clean_one(recipe_root, package_name)
+    recipe_dirs      = Dir.glob(File.join(recipe_root, '*'))
+    results          = []
+    cleaned_packages = recipe_dirs.map do |recipe_dir|
+      package_name = File.basename(recipe_dir)
+      results.push(clean_one(recipe_root, package_name))
       package_name
     end
-    puts 'Successfully removed the following packages:'
-    Utils.print_packages(cleaned_packages)
+    unless results.include?(false)
+      puts 'Successfully removed the following packages:'
+      Utils.print_packages(cleaned_packages)
+    end
   end
 
+  # TODO check if files are there so that output makes more sense
   def self.clean_one(recipe_root, package_name)
     recipe_dir = File.join(recipe_root, package_name)
     puts "Removing #{package_name}..." if Utils.valid_recipe_dir?(recipe_dir)
     Build.remove_package(recipe_dir)
-    puts "Successfully removed package and temp dirs for #{package_name}"
+
+    is_clean = true
+    tmpdirs  = %w[cache pkg tmp-*]
+    tmpdirs.each do |dir|
+      is_clean = false if Dir.exist?(File.join(recipe_dir, dir))
+      break
+    end
+    success_msg = "Successfully removed pkg/ and temp dirs for #{package_name}"
+    puts success_msg if is_clean
+    is_clean
   end
 
   def self.deploy(config_file, recipe_root)
