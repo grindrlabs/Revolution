@@ -18,6 +18,12 @@ module RPMRepository
     repo.bucket(config['bucket'])
   end
 
+  def self.get_rpm_path(package_name)
+    rpms     = Dir.glob("#{CENTOS_SUBDIR}/*#{package_name}*.rpm")
+    rpm_path = rpms[0]
+    rpm_path if Revolution.valid_rpm_path?(rpm_path)
+  end
+
   class Manager
     attr_reader :bucket, :base_path, :repo_dir, :centos_subdir_local
 

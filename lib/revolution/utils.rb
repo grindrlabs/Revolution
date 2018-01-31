@@ -37,12 +37,6 @@ module Utils
     true
   end
 
-  def self.get_rpm_path(package_name)
-    rpms     = Dir.glob("#{CENTOS_SUBDIR}/*#{package_name}*.rpm")
-    rpm_path = rpms[0]
-    rpm_path if Revolution.valid_rpm_path?(rpm_path)
-  end
-
   def self.print_packages(list)
     list.each { |item| puts ''.ljust(10) + item }
   end
