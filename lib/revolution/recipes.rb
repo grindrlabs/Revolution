@@ -20,9 +20,9 @@ module Recipes
     end
 
     # Create Recipe object for each recipe_dir
-    recipe_dirs.each do |subpath|
-      path = base_path + subpath
-      recipes.push(Recipe.new(path)) if File.exist?(path + '/recipe.rb')
+    recipe_dirs.each do |recipe_dir|
+      path = File.join(base_path, recipe_dir)
+      recipes.push(Recipe.new(path)) if File.exist?(File.join(path, 'recipe.rb'))
     end
     recipes
   end
@@ -30,12 +30,13 @@ module Recipes
   # Stores data for a single recipe
   # One recipe has one or more target @targets
   class Recipe
-    attr_accessor :package_name, :data, :targets
+    attr_accessor :rpm_name, :data, :targets
 
     def initialize(path)
-      @data         = Recipes.inspect(path)
-      @package_name = data['name']
-      @targets      = []
+      @data       = Recipes.inspect(path)
+      @recipe_dir = File.basename(path)
+      @rpm_name   = @data['name']
+      @targets    = []
       if chain_package?
         # TODO
         # for each r in chain_recipes
@@ -60,7 +61,7 @@ module Recipes
 
     def initialize(path)
       @data         = Recipes.inspect(path)
-      @package_name = @data['name']
+      @rpm_name     = @data['name']
       @dependencies = @data['depends']
     end
 

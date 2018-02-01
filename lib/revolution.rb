@@ -20,19 +20,19 @@ module Revolution
   def self.print_build_order(recipe_root)
     sorted_recipes = get_build_order(recipe_root)
     message        = 'Recipes will build in the following order:'
-    Utils.print_list_with_message(message, sorted_recipes.map(&:package_name))
+    Utils.print_list_with_message(message, sorted_recipes.map(&:rpm_name))
   end
 
   def self.build_all(recipe_root)
     puts 'Building packages in order...' if Utils.valid_recipe_root?(recipe_root)
     sorted_recipes = get_build_order(recipe_root)
     built_packages = sorted_recipes.map do |recipe|
-      package_name = recipe.package_name
-      build_one(recipe_root, package_name)
-      package_name
+      puts "recipe dir: #{recipe.recipe_dir}"
+      build_one(recipe_root, recipe.recipe_dir)
+      recipe.rpm_name
     end
     message = 'Successfully built the following packages:'
-    print_list_with_message(message, built_packages)
+    Utils.print_list_with_message(message, built_packages)
   end
 
   def self.build_one(recipe_root, package_name)
