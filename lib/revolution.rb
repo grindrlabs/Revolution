@@ -19,8 +19,8 @@ module Revolution
 
   def self.print_build_order(recipe_root)
     sorted_recipes = get_build_order(recipe_root)
-    puts 'Recipes will build in the following order:'
-    Utils.print_packages(sorted_recipes.map(&:package_name))
+    message        = 'Recipes will build in the following order:'
+    Utils.print_list_with_message(message, sorted_recipes.map(&:package_name))
   end
 
   def self.build_all(recipe_root)
@@ -31,8 +31,8 @@ module Revolution
       build_one(recipe_root, package_name)
       package_name
     end
-    puts 'Successfully built the following packages:'
-    print_packages(built_packages)
+    message = 'Successfully built the following packages:'
+    print_list_with_message(message, built_packages)
   end
 
   def self.build_one(recipe_root, package_name)
@@ -52,13 +52,11 @@ module Revolution
       results.push(clean_one(recipe_root, package_name))
       package_name
     end
-    unless results.include?(false)
-      puts 'Successfully removed the following packages:'
-      Utils.print_packages(cleaned_packages)
-    end
+    message = 'Removed the following packages:'
+    Utils.print_list_with_message(message, cleaned_packages) unless results.include?(false)
   end
 
-  # TODO check if files are there so that output makes more sense
+  # TODO: check if files are there so that output makes more sense
   def self.clean_one(recipe_root, package_name)
     recipe_dir = File.join(recipe_root, package_name)
     puts "Removing #{package_name}..." if Utils.valid_recipe_dir?(recipe_dir)

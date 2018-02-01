@@ -37,7 +37,8 @@ module Utils
     true
   end
 
-  def self.print_packages(list)
+  def self.print_list_with_message(message, list)
+    puts message
     list.each { |item| puts ''.ljust(10) + item }
   end
 end
