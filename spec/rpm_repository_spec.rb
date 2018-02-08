@@ -12,12 +12,12 @@ RSpec.describe RPMRepository do
     end
     let(:recipe_root) { 'examples/' }
     let(:config) { YAML.load_file(File.join(@base_path, 'test_config.yml')) }
-    let(:bucket) do
+    let(:bucket_stub) do
       s3_client = Aws::S3::Client.new(stub_responses: true)
       repo      = Aws::S3::Resource.new(client: s3_client, region: config['region'])
       repo.bucket(config['bucket'])
     end
-    subject { RPMRepository::Manager.new(bucket: bucket, pwd: @base_path) }
+    subject { RPMRepository::Manager.new(bucket: bucket_stub, pwd: @base_path) }
 
     describe '.initialize' do
       it 'creates a Manager object' do

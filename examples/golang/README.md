@@ -1,3 +1,4 @@
-# The Go Programming Language
+# Grindr RPM Packages
+## Golang Package - `grindr-golang`
 
-Packaging for the Go programming language.
+Repackaged golang binaries.
